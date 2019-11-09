@@ -23,7 +23,7 @@ def get_db():
 
 @app.get("/")
 def helloWorld():
-    return {"Hello ,Clarissa! I love you"}
+    return {"Hello ,World!"}
 
 @app.get("/health")
 def healthCheck():
