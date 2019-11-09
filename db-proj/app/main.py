@@ -8,8 +8,8 @@ from .database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(  title = "partnerup",
-    description = "partners mentors with those who wish to be mentored",
+app = FastAPI(  title = "Guitar Hero",
+    description = "Learning the guitar made easy",
     version = "1.0")
 
 
@@ -23,7 +23,7 @@ def get_db():
 
 @app.get("/")
 def helloWorld():
-    return {"Hello": "World!"}
+    return {"Hello ,Clarissa! I love you"}
 
 @app.get("/health")
 def healthCheck():
@@ -35,3 +35,11 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@app.get("/users/", response_model=schemas.User)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_username(db, username=user.username)
+    if db_user:
+        raise HTTPException(status_code=400, detail="User already registered")
+    return crud.create_user(db=db, user=user)
+

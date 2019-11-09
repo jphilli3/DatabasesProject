@@ -8,8 +8,8 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    password = Column(String)
+    username = Column(String(55), unique=True, index=True)
+    password = Column(String(55))
     deleted = Column(Boolean, default=False)
 
     # items = relationship("Item", back_populates="owner")
