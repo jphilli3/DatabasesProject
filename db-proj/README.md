@@ -1,7 +1,7 @@
 1st you need to create a virtual python environment. Do this by running the command
 
 ```
-pyenv db-venv
+pyvenv db-venv
 ```
 
 Next you will need to activate it:
