@@ -20,6 +20,7 @@ class Users(Base):
 class Knows_Chord(Base):
     __tablename__ = "knows_chord"
 
+    id = Column(Integer, primary_key=True, index=True, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     chord_id = Column(Integer, ForeignKey("chords.id"), nullable=False)
 
@@ -36,6 +37,7 @@ class Songs(Base):
 class Uses_Chords(Base):
     __tablename__ = "uses_chords"
 
+    id = Column(Integer, primary_key=True, index=True, nullable=False)
     song_id = Column(Integer, ForeignKey("songs.id"), nullable=False)
     chord_id = Column(Integer, ForeignKey("chords.id"), nullable=False)
 
@@ -60,12 +62,14 @@ class Chord_Progressions(Base):
 
 class In_Song(Base):
     __tablename__ = "in_song"
-
+    
+    id = Column(Integer, primary_key=True, index=True, nullable=False)
     song_id = Column(Integer, ForeignKey("songs.id"), nullable=False)
     progression_id = Column(Integer, ForeignKey("chord_progressions.id"), nullable=False)
 
 class In_Progression(Base):
     __tablename__ = "in_progression"
 
+    id = Column(Integer, primary_key=True, index=True, nullable=False)
     progression_id = Column(Integer, ForeignKey("chord_progressions.id"), nullable=False)
     chord_id = Column(Integer, ForeignKey("chords.id"), nullable=False)
