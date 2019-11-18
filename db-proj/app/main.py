@@ -8,10 +8,9 @@ from .database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(  title = "Guitar Hero",
+app = FastAPI(title = "Guitar Hero",
     description = "Learning the guitar made easy",
     version = "1.0")
-
 
 # Dependency
 def get_db():
@@ -29,9 +28,9 @@ def helloWorld():
 def healthCheck():
     return {"status":"up"}
 
-@app.get("/users/{user_id}", response_model=schemas.User)
+@app.get("/users/{id}", response_model=schemas.User)
 def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db, user_id=user_id)
+    db_user = crud.get_user(db=db, user_id=user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
@@ -43,3 +42,30 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="User already registered")
     return crud.create_user(db=db, user=user)
 
+@app.get("/chord/{id}", response_model=schemas.Chord)
+def read_chord(chord_id: int, db: Session = Depends(get_db)):
+    db_chord = crud.get_chord(db=db, chord_id=chord_id)
+    if db_chord is None:
+        raise HTTPException(status_code=404, detail="Chord not found")
+    return db_chord
+
+@app.get("/chords/", response_model=schemas.Chord)
+def create_chord(chord: schemas.ChordCreate, db: Session = Depends(get_db)):
+    db_chord = crud.get_chord(db=db,chord_id=chord.id)
+    if db_chord:
+        raise HTTPException(status_code=400, detail="Chord already created")
+    return crud.create_chord(db=db, chord=chord)
+
+@app.get("/progressions/{id}", response_model=schemas.Progression)
+def read_progression(progression_id: int, db: Session = Depends(get_db)):
+    db_progression = crud.get_progression(db=db, progression_id=progression_id)
+    if db_progression is None:
+        raise HTTPException(status_code=404, detail="Progression not found")
+    return db_progression
+
+@app.get("/progressions/", response_model=schemas.Progression)
+def create_progression(progression: schemas.ProgressionCreate, db: Session = Depends(get_db)):
+    db_progression = crud.get_progression(db=db,progression_id=progression.id)
+    if db_progression:
+        raise HTTPException(status_code=400, detail="Progression already created")
+    return crud.create_progression(db=db, progression=progression)

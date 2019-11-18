@@ -2,6 +2,10 @@
 
 ```
 pyvenv db-venv
+
+or
+
+virtualenv -p python3 myenv[name-here]
 ```
 
 Next you will need to activate it:

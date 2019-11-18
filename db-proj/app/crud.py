@@ -21,24 +21,41 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return db_user\
+    return db_user
 
 #Chords
 def get_chord(db: Session, chord_id: int):
     return db.query(models.Chords).filter(models.Chords.id == chord_id).first()
 
+def get_chord_by_name(db: Session, chord_name: str):
+    return db.query(models.Chords).filter(models.Chords.name == chord_name).first()
 
 def get_chords(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Chords).offset(skip).limit(limit).all()
 
-
 def create_chord(db: Session, chord: schemas.ChordCreate):
-    name = chord.name
-    db_chord = models.Users(name = name, barre=chord.barre, string1=chord.string1, string2=chord.string2, string3=chord.string3, string4=chord.string4,string5=chord.string5,string6=chord.string6,)
+    db_chord = models.Chords(name=chord.name, barre=chord.barre, string1=chord.string1, string2=chord.string2, string3=chord.string3, string4=chord.string4,string5=chord.string5,string6=chord.string6)
     db.add(db_chord)
     db.commit()
     db.refresh(db_chord)
     return db_chord
+
+#Progressions
+def get_progression(db: Session, progression_id: int):
+    return db.query(models.Progressions).filter(models.Progressions.id == progression_id).first()
+
+def get_progression_by_name(db: Session, progression_name: str):
+    return db.query(models.Progressions).filter(models.Progressions.name == progression_name).first()
+
+def get_progressions(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Progressions).offset(skip).limit(limit).all()
+
+def create_progression(db: Session, progression: schemas.ProgressionCreate):
+    db_progression = models.Progressions()
+    db.add(db_progression)
+    db.commit()
+    db.refresh(db_progression)
+    return db_progression
 
 # def get_items(db: Session, skip: int = 0, limit: int = 100):
 #     return db.query(models.Item).offset(skip).limit(limit).all()
