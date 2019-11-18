@@ -44,18 +44,35 @@ def create_chord(db: Session, chord: schemas.ChordCreate):
 def get_progression(db: Session, progression_id: int):
     return db.query(models.Progressions).filter(models.Progressions.id == progression_id).first()
 
-def get_progression_by_name(db: Session, progression_name: str):
-    return db.query(models.Progressions).filter(models.Progressions.name == progression_name).first()
+def get_progression_by_key(db: Session, progression_name: str):
+    return db.query(models.Progressions).filter(models.Progressions.key == progression_name).first()
 
 def get_progressions(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Progressions).offset(skip).limit(limit).all()
 
 def create_progression(db: Session, progression: schemas.ProgressionCreate):
-    db_progression = models.Progressions()
+    db_progression = models.Progressions(key=progression.key)
     db.add(db_progression)
     db.commit()
     db.refresh(db_progression)
     return db_progression
+
+#Songs
+def get_song(db: Session, song_id: int):
+    return db.query(models.Progressions).filter(models.Songs.id == song_id).first()
+
+def get_song_by_title(db: Session, song_title: str):
+    return db.query(models.Songs).filter(models.Songs.title == song_title).first()
+
+def get_songs(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Songs).offset(skip).limit(limit).all()
+
+def create_song(db: Session, song: schemas.SongCreate):
+    db_song = models.Songs(title = song.title, artist = song.artist, difficulty = song.difficulty)
+    db.add(db_song)
+    db.commit()
+    db.refresh(db_song)
+    return db_song
 
 # def get_items(db: Session, skip: int = 0, limit: int = 100):
 #     return db.query(models.Item).offset(skip).limit(limit).all()

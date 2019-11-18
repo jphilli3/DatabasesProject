@@ -69,3 +69,17 @@ def create_progression(progression: schemas.ProgressionCreate, db: Session = Dep
     if db_progression:
         raise HTTPException(status_code=400, detail="Progression already created")
     return crud.create_progression(db=db, progression=progression)
+
+@app.get("/songs/{id}", response_model=schemas.Song)
+def read_song(song_id: int, db: Session = Depends(get_db)):
+    db_song = crud.get_song(db=db, song_id=song_id)
+    if db_song is None:
+        raise HTTPException(status_code=404, detail="Song not found")
+    return db_song
+
+@app.get("/songs/", response_model=schemas.Song)
+def create_song(song: schemas.SongCreate, db: Session = Depends(get_db)):
+    db_song= crud.get_song(db=db,song_id=song.id)
+    if db_song:
+        raise HTTPException(status_code=400, detail="Song already created")
+    return crud.create_progression(db=db, progression=song)
