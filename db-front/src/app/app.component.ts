@@ -1,5 +1,7 @@
+import { Health } from './health';
+import { ApiService } from './api.service';
 import { Component } from '@angular/core';
-import { ThrowStmt } from '@angular/compiler';
+
 
 @Component({
   selector: 'app-root',
@@ -25,7 +27,7 @@ export class SearchButtonComponent {
   value = '';
   b = true;
   search() {
-    
+    this.value = '';
   }
   input(event: any) {
     this.value = event.target.value;
