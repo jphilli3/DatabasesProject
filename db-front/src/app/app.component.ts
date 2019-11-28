@@ -14,22 +14,27 @@ export class AppComponent {
 }
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './app.component.html',
+  selector: 'app-search-bar',
+  styleUrls: ['./app.component.css'],
   template: `
-    <input (keyup)="input($event)">
-    <p>
-    <button (click)="search()">Search Chord</button>
-    </p>
-    <p>{{value}}</p>`
+    <input class="search-bar" type="text">
+    `
 })
-export class SearchButtonComponent {
+export class SearchBarComponent {
   value = '';
-  b = true;
-  search() {
-    this.value = '';
-  }
   input(event: any) {
     this.value = event.target.value;
   }
 }
+
+// @Component({
+//   selector: 'app-search-button',
+//   templateUrl: './app.component.html',
+//   template: `
+//   <button (click)="search()">Search</button>
+//   `
+// })
+
+// export class SearchButtonComponent {
+ 
+// }
