@@ -27,6 +27,33 @@ export class SearchBarComponent {
   }
 }
 
+@Component({
+  selector: 'app-chord-view',
+  styleUrls: ['./app.component.css'],
+  template: `
+  <div class="chord-view">
+    <div class="string">
+      </div>
+    <div class="string">
+      </div>
+    <div class="string">
+      </div>
+    <div class="string">
+      </div>
+    <div class="string">
+      </div>
+    <div class="string">
+      </div>
+  </div>
+    `
+})
+
+export class ChordViewComponent {
+  value = '';
+  input(event: any) {
+    this.value = event.target.value;
+  }
+}
 // @Component({
 //   selector: 'app-search-button',
 //   templateUrl: './app.component.html',
