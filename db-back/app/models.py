@@ -1,75 +1,75 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
+from sqlalchemy.dialects.mysql import TINYINT 
 from sqlalchemy.orm import relationship
 
 from .database import Base
 
 
-class Users(Base):
-    __tablename__ = "users"
+progression_chord_association = Table("In_Progression", Base.metadata,
+    Column("ProgressionID",Integer,ForeignKey("Chord_Progression.id")),
+    Column("ChordID",Integer, ForeignKey("Chord.id")))
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    username = Column(String(55), unique=True, index=True, nullable=False)
-    first_name = Column(String(55), index=True, nullable=False)
-    last_name = Column(String(55), index=True, nullable=False)
-    level = Column(Integer,index=True, nullable=False)
-    password = Column(String(55), nullable=False)
-    deleted = Column(Boolean, default=False, nullable=False)
+song_chord_association = Table("Uses_Chords", Base.metadata,
+    Column("SongID",Integer,ForeignKey("Songs.id")),
+    Column("ChordID",Integer, ForeignKey("Chord.id")))
 
-    # items = relationship("Item", back_populates="owner")
+song_progression_association = Table("In_Song", Base.metadata,
+    Column("SongID",Integer,ForeignKey("Songs.id")),
+    Column("ProgressionID",Integer, ForeignKey("Chord_Progression.id")))
 
-class Knows_Chord(Base):
-    __tablename__ = "knows_chord"
+user_chord_assocociation = Table("Knows_Chord", Base.metadata,
+    Column("UserID",Integer,ForeignKey("User.id")),
+    Column("ChordID",Integer, ForeignKey("Chord.id")))
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    chord_id = Column(Integer, ForeignKey("chords.id"), nullable=False)
+class User(Base):
+    __tablename__ = "User"
 
-    #owner = relationship("User", back_populates="items")
+    id = Column(Integer, primary_key=True, index=True,)
+    username = Column(String(30))
+    password = Column(String(30))
+    first_name = Column(String(30))
+    last_name = Column(String(30))
+    player_level = Column(Integer)
+
+    known_chords = relationship("Chord", secondary=user_chord_assocociation, back_populates="User")
 
 class Songs(Base):
-    __tablename__ = "songs"
+    __tablename__ = "Songs"
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    title = Column(String(110), index=True, nullable=False)
-    artist = Column(String(110), index=True, nullable=False)
-    difficulty = Column(Integer, index=True, nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(50))
+    artist = Column(String(20))
+    difficulty = Column(Integer)
 
-class Uses_Chords(Base):
-    __tablename__ = "uses_chords"
+    chords_in = relationship("Chord",secondary=song_chord_association,back_populates="Songs")
+    progressions_in = relationship("Chord_Progression", secondary=song_progression_association,back_populates="Songs")
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    song_id = Column(Integer, ForeignKey("songs.id"), nullable=False)
-    chord_id = Column(Integer, ForeignKey("chords.id"), nullable=False)
+class Chord(Base):
+    __tablename__ = "Chord"
 
-class Chords(Base):
-    __tablename__ = "chords"
+    id = Column(Integer, primary_key=True, index = True)
+    chord_name = Column(String(7))
+    barre = Column(bool, nullable = True )
+    barre_fret = Column(TINYINT(1), nullable = True)
+    string6 = Column(TINYINT(1), nullable = True)
+    string5 = Column(TINYINT(1), nullable = True)
+    string4 = Column(TINYINT(1), nullable = True)
+    string3 = Column(TINYINT(1), nullable = True)
+    string2 = Column(TINYINT(1), nullable = True)
+    string1 = Column(TINYINT(1), nullable = True)
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    name = Column(String(3),nullable=False)
-    barre = Column(Boolean, nullable=False)
-    string1 = Column(Integer, nullable=False)
-    string2 = Column(Integer, nullable=False)
-    string3 = Column(Integer, nullable=False)
-    string4 = Column(Integer, nullable=False)
-    string5 = Column(Integer, nullable=False)
-    string6 = Column(Integer, nullable=False)
+    in_songs = relationship("Songs", secondary=song_chord_association,back_populates="Chord")
+    in_progression = relationship("Chord_Progression",secondary=progression_chord_association ,back_populates="Chord")
+    known_by = relationship("User",secondary=user_chord_assocociation,back_populates="Chord")
 
-class Chord_Progressions(Base):
-    __tablename__ = "chord_progressions"
+class Chord_Progression(Base):
+    __tablename__ = "Chord_Progression"
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    key = Column(String(3), nullable=False)
+    id = Column(Integer, primary_key=True,index=True)
+    key_name = Column(String(3), nullable = True)
 
-class In_Song(Base):
-    __tablename__ = "in_song"
+    progression_chords = relationship("Chord", secondary=progression_chord_association, back_populates="Chord_Progression")
+    songs_with_progression = relationship("Songs", secondary=song_progression_association,back_populates="Chord_Progression")
     
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    song_id = Column(Integer, ForeignKey("songs.id"), nullable=False)
-    progression_id = Column(Integer, ForeignKey("chord_progressions.id"), nullable=False)
 
-class In_Progression(Base):
-    __tablename__ = "in_progression"
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    progression_id = Column(Integer, ForeignKey("chord_progressions.id"), nullable=False)
-    chord_id = Column(Integer, ForeignKey("chords.id"), nullable=False)
