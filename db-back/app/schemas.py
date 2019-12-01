@@ -2,7 +2,6 @@ from typing import List
 
 from pydantic import BaseModel
 
-##         CHORDS
 
 class ChordBase(BaseModel):
     chord_name: str
@@ -24,28 +23,21 @@ class Chord(ChordBase):
     class Config:
         orm_mode = True
 
-## CHORD PROGRESSIONS
+class ChordProgressionBase(BaseModel):
+    key_name: str
 
-
-class Chord_ProgressionBase(BaseModel):
-    key_name:str
-
-class Chord_ProgressionCreate(Chord_ProgressionBase):
+class ChordProgressionCreate(ChordProgressionBase):
     pass
 
-class Chord_Progression(Chord_ProgressionBase):
+class ChordProgression(ChordProgressionBase):
     id: int
-    
     progression_chords: List[Chord] = []
 
     class Config:
         orm_mode = True
 
-
-## SONGS 
-
 class SongsBase(BaseModel):
-    title:str
+    title: str
 
 class SongsCreate(SongsBase):
     pass
@@ -54,14 +46,12 @@ class Songs(SongsBase):
     id: int
     artist: str
     difficulty: int
-
     chords_in: List[Chord] = []
-    progressions_in: List[Chord_Progression]=[]
+    progressions_in: List[ChordProgression] = []
 
     class Config:
-        orm_mode=True
-
- ## USERS   
+        orm_mode = True
+  
 
 class UserBase(BaseModel):
     username: str

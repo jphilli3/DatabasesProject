@@ -49,7 +49,7 @@ class Chord(Base):
 
     id = Column(Integer, primary_key=True, index = True)
     chord_name = Column(String(7))
-    barre = Column(bool, nullable = True )
+    barre = Column(Boolean, nullable = True )
     barre_fret = Column(TINYINT(1), nullable = True)
     string6 = Column(TINYINT(1), nullable = True)
     string5 = Column(TINYINT(1), nullable = True)
@@ -58,9 +58,9 @@ class Chord(Base):
     string2 = Column(TINYINT(1), nullable = True)
     string1 = Column(TINYINT(1), nullable = True)
 
-    in_songs = relationship("Songs", secondary=song_chord_association,back_populates="Chord")
-    in_progression = relationship("Chord_Progression",secondary=progression_chord_association ,back_populates="Chord")
-    known_by = relationship("User",secondary=user_chord_assocociation,back_populates="Chord")
+    # in_songs = relationship("Songs", secondary=song_chord_association,back_populates="Chord")
+    # in_progression = relationship("Chord_Progression",secondary=progression_chord_association ,back_populates="Chord")
+    # known_by = relationship("User",secondary=user_chord_assocociation,back_populates="Chord")
 
 class Chord_Progression(Base):
     __tablename__ = "Chord_Progression"
@@ -69,7 +69,7 @@ class Chord_Progression(Base):
     key_name = Column(String(3), nullable = True)
 
     progression_chords = relationship("Chord", secondary=progression_chord_association, back_populates="Chord_Progression")
-    songs_with_progression = relationship("Songs", secondary=song_progression_association,back_populates="Chord_Progression")
+    # songs_with_progression = relationship("Songs", secondary=song_progression_association,back_populates="Chord_Progression")
     
 
 
