@@ -1,6 +1,7 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, Injectable, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-search-chords',
@@ -14,18 +15,31 @@ export class SearchChordsComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
 }
 @Component({
   selector: 'app-search-bar',
   styleUrls: ['./search-chords.component.css'],
   template: `
-    <input class="search-bar" type="text">
+    <input class="search-bar" (keyup)="input($event)" type="text">
+    <app-chord-view [chords]="chords"></app-chord-view>
     `
 })
+
 export class SearchBarComponent {
-  value = '';
+  apiURL = 'http://127.0.0.1:8000/chord/name/';
+  searchURL = '';
+  chords: any[] = [];
+  constructor(private http: HttpClient) { }
+
   input(event: any) {
-    this.value = event.target.value;
+    console.log(this.apiURL + event.target.value);
+    const obs = this.http.get(this.apiURL + event.target.value);
+    obs.subscribe((response) => {
+      this.chords.pop();
+      this.chords.push(response);
+    });
   }
 }
 
@@ -100,46 +114,7 @@ export class SearchBarComponent {
 })
 
 export class ChordViewComponent {
-
-  chords: any[] = [
-    {
-    'chord_name': 'D',
-    'barre': false,
-    'barre_fret': 0,
-    'string1': 2,
-    'string2': 3,
-    'string3': 2,
-    'string4': 0,
-    'string5': -1,
-    'string6': -1,
-    'max_fret': 3
-    },
-    {
-    'chord_name': 'C',
-    'barre': false,
-    'barre_fret': 0,
-    'string1': 0,
-    'string2': 1,
-    'string3': 0,
-    'string4': 2,
-    'string5': 3,
-    'string6': -1,
-    'max_fret': 3
-    },
-    {
-    'chord_name': 'D/F#',
-    'barre': true,
-    'barre_fret': 2,
-    'string1': 2,
-    'string2': 3,
-    'string3': 2,
-    'string4': 4,
-    'string5': 5,
-    'string6': 2,
-    'max_fret': 5
-    }
-  ];
-
+  @Input() chords: any[];
   // Checks to see if a string is open or closed and selects the correct styling class.
   getStringClass(string) {
     switch (string) {
@@ -152,7 +127,16 @@ export class ChordViewComponent {
 
   // Checks to see if a finger position is in use by the chord.
   getFingerPosition(fret, position, max) {
-    if (max - 3 === 0) {
+    if (position <= 0) {
+      return 'none';
+    }
+    if (max - 2 === 0) {
+      if (fret === position) {
+        return 'block';
+      } else {
+        return 'none';
+      }
+    } else if (max - 3 === 0) {
       if (fret === position) {
         return 'block';
       } else {
@@ -169,7 +153,18 @@ export class ChordViewComponent {
 
   // Gets the fret number.
   getFretNumber(max, index) {
-    if (max - 3 === 0) {
+    if (max - 2 === 0) {
+      switch (index) {
+        case 1:
+          return 1;
+        case 2:
+          return 2;
+        case 3:
+          return 3;
+        case 4:
+          return 4;
+      }
+    } else if (max - 3 === 0) {
       switch (index) {
         case 1:
           return 1;

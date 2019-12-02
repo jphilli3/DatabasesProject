@@ -52,7 +52,7 @@ class Chord(Base):
     __tablename__ = "chord"
 
     id = Column(Integer, primary_key=True, index=True, nullable=False)
-    chord_name = Column(String(3),nullable=False)
+    chord_name = Column(String(7),nullable=False)
     barre = Column(Boolean, nullable=False)
     barre_fret = Column(TINYINT(1), nullable = True)
     string6 = Column(TINYINT(1), nullable = True)
@@ -61,6 +61,7 @@ class Chord(Base):
     string3 = Column(TINYINT(1), nullable = True)
     string2 = Column(TINYINT(1), nullable = True)
     string1 = Column(TINYINT(1), nullable = True)
+    max_fret = Column(TINYINT(1), nullable = True)
 
     known_chords = relationship("User", secondary=user_chord_assocociation,back_populates="user_chords")
     in_songs = relationship("Songs",secondary=song_chord_association,back_populates="chords_in")

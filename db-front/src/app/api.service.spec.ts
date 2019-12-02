@@ -16,8 +16,6 @@ describe('ApiService', () => {
     expect(service).toBeTruthy();
   });
   it(`should have status`, () => {
-    const service: ApiService = TestBed.get(ApiService);
-    console.log(service.getHealth());
-    expect(service.getHealth());
+   
   });
 });

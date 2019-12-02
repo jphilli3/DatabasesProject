@@ -61,11 +61,15 @@ def getUserDetails(username: str,db:Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail= "User not found")
     return db_user
 
-    
+@app.get("/chord/name/{chord_name}", response_model=schemas.Chord)
+def read_chord(chord_name: str, db: Session = Depends(get_db)):
+    db_chord = crud.get_chord_by_name(db=db, chord_name=chord_name)
+    if db_chord is None:
+        raise HTTPException(status_code=404, detail="Chord not found")
+    return db_chord
 
-
-@app.get("/chord/{id}", response_model=schemas.Chord)
-def read_chord(chord_id: int, db: Session = Depends(get_db)):
+@app.get("/chord/id/{id}", response_model=schemas.Chord)
+def read_chord_id(chord_id: int, db: Session = Depends(get_db)):
     db_chord = crud.get_chord(db=db, chord_id=chord_id)
     if db_chord is None:
         raise HTTPException(status_code=404, detail="Chord not found")
