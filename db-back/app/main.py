@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
+from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
@@ -12,6 +13,20 @@ app = FastAPI(title = "Guitar Hero",
     description = "Learning the guitar made easy",
     version = "1.0")
 
+# add your front end server here:
+origins = [
+    "http://localhost:4200"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 # Dependency
 def get_db():
     try:
@@ -21,10 +36,6 @@ def get_db():
         db.close()
 
 @app.get("/")
-def helloWorld():
-    return {"Hello ,World!"}
-
-@app.get("/health")
 def healthCheck():
     return {"status":"up"}
 
@@ -34,6 +45,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
 
 @app.get("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):

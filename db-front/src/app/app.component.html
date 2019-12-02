@@ -1,24 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div class="root">
-  <form>
-  <div class="title-container">
-      <h1 class="title">Search Chords</h1>
-  </div>
-  <div class="search-bar-container">
-      <app-search-bar></app-search-bar>
-  </div>
-<div class="table-scroll">
-  <table class="chord-table">
-    <tr>
-      <app-chord-view></app-chord-view>
-      <app-chord-view></app-chord-view>
-      <app-chord-view></app-chord-view>
-      <app-chord-view></app-chord-view>
-      <app-chord-view></app-chord-view>
-      <app-chord-view></app-chord-view>
-    </tr>
-  </table> 
+<div class="topnav">
+    <a class="active" routerLink="home">Home</a>
+    <a routerLink = "search-chords">Search</a>
+    <a routerLink = "login">Log Out</a>
 </div>
-</form>
-</div>
-<router-outlet></router-outlet>
+
+<router-outlet> </router-outlet> 

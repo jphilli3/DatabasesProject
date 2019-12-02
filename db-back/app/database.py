@@ -4,7 +4,9 @@ from sqlalchemy.orm import sessionmaker
 
 
 # SQLALCHEMY_DATABASE_URL = "postgresql://postgres:dbpw@localhost:5432/db-proj"
-SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:mypassword@localhost/guitar_database'
+#SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:mypassword@localhost/guitar_database'
+SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:dbpw@localhost/guitar_db'
+
 
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
