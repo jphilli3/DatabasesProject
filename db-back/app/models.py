@@ -52,7 +52,7 @@ class Chord(Base):
     __tablename__ = "chord"
 
     id = Column(Integer, primary_key=True, index=True, nullable=False)
-    chord_name = Column(String(3),nullable=False)
+    chord_name = Column(String(7),nullable=False)
     barre = Column(Boolean, nullable=False)
     barre_fret = Column(TINYINT(1), nullable = True)
     string6 = Column(TINYINT(1), nullable = True)

@@ -28,7 +28,7 @@ export class SearchChordsComponent implements OnInit {
 })
 
 export class SearchBarComponent {
-  apiURL = 'http://127.0.0.1:8000/chord/name/{chord_name}?name=';
+  apiURL = 'http://127.0.0.1:8000/chord/name/';
   searchURL = '';
   chords: any[] = [];
   constructor(private http: HttpClient) { }
