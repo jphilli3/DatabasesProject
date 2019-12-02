@@ -17,8 +17,13 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  loginUser(event){
+    event.preventDefault()
+    console.log(event)
+  }
+
   login() {
-    this.http.get(this.svc.apiURL + "users/" + 1).subscribe((response)=>{
+    this.http.get(this.svc.apiURL + "users/" + "{id}?user_id=1").subscribe((response)=>{
     this.response = response; 
     console.log(this.response);})
   }
