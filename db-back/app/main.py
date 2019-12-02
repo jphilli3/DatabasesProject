@@ -50,9 +50,19 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @app.get("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, username=user.username)
-    if db_user:
+    if db_user: 
         raise HTTPException(status_code=400, detail="User already registered")
     return crud.create_user(db=db, user=user)
+
+@app.get("/getUserDetails/{user}", response_model=schemas.User)
+def getUserDetails(username: str,db:Session = Depends(get_db)):
+    db_user = crud.get_user_by_username(db=db,username=username)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail= "User not found")
+    return db_user
+
+    
+
 
 @app.get("/chord/{id}", response_model=schemas.Chord)
 def read_chord(chord_id: int, db: Session = Depends(get_db)):

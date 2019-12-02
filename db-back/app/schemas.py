@@ -55,12 +55,13 @@ class Song(SongBase):
 
 class UserBase(BaseModel):
     username: str
+    password: str
     first_name: str
     last_name: str
     player_level: int
 
 class UserCreate(UserBase):
-    password: str
+    pass
 
 
 class User(UserBase):

@@ -19,7 +19,13 @@ export class LoginComponent implements OnInit {
 
   loginUser(event){
     event.preventDefault()
-    console.log(event)
+    const target = event.target
+    const username = target.querySelector('#username').value
+    const password = target.querySelector('#password ').value
+    
+    console.log(username,password)
+
+    this.svc.getUserDetails(username,password)
   }
 
   login() {
