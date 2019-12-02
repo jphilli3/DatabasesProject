@@ -1,4 +1,19 @@
-username: <input type="text" [(ngModel)]="username">
-password: <input type="text" [(ngModel)]="password">
-<button (click)="login()">login</button> <button (click)="signup">sign up</button>
+
+<!-- [(ngModel)]="username"
+[(ngModel)]="password" -->
+
+
+<form (submit)="loginUser($event)">
+   <p>Username: <input type="text" placeholder="username"></p>
+   <p>Password: <input type="text" placeholder="password"></p>
+   <input type="submit" value="Login">
+</form>
+
+
+<form (submit)="createNewUser()">
+        <p>Username: <input type="text" placeholder="username"></p>
+        <p>Password: <input type="text" placeholder="password"></p>
+        <input type="submit" value="Register Account">
+</form>
+
 
