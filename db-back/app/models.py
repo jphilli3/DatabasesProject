@@ -61,6 +61,7 @@ class Chord(Base):
     string3 = Column(TINYINT(1), nullable = True)
     string2 = Column(TINYINT(1), nullable = True)
     string1 = Column(TINYINT(1), nullable = True)
+    max_fret = Column(TINYINT(1), nullable = True)
 
     known_chords = relationship("User", secondary=user_chord_assocociation,back_populates="user_chords")
     in_songs = relationship("Songs",secondary=song_chord_association,back_populates="chords_in")

@@ -12,6 +12,7 @@ class ChordBase(BaseModel):
     string4: int
     string5: int
     string6: int
+    max_fret: int
 
 class ChordCreate(ChordBase):
     pass

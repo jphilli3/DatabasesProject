@@ -34,7 +34,7 @@ def get_chord(db: Session, chord_id: int):
     return db.query(models.Chord).filter(models.Chord.id == chord_id).first()
 
 def get_chord_by_name(db: Session, chord_name: str):
-    return db.query(models.Chord).filter(models.Chord.name == chord_name).first()
+    return db.query(models.Chord).filter(models.Chord.chord_name == chord_name).first()
 
 def get_chords(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Chord).offset(skip).limit(limit).all()
