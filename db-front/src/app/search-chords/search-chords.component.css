@@ -115,8 +115,13 @@ input.search-bar {
     -webkit-filter: drop-shadow( 2px 2px 2px 2px rgb(0.0, 0.0, 0.0, 0.5));
 }
 
-.string {
+.open-string {
     fill: #308695;
+    width: 4%;
+    height: 100%;
+}
+.muted-string {
+    fill: #455054;
     width: 4%;
     height: 100%;
 }

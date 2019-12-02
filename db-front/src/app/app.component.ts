@@ -12,11 +12,11 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   title = 'Guitar Hero';
 
-  apiURL = "http://127.0.0.1:8000/"
-  constructor(private http: HttpClient){}
+  apiURL = 'http://127.0.0.1:8000/';
+  constructor(private http: HttpClient) { }
 
-  ngOnInit(){
-    let obs = this.http.get(this.apiURL)
-    obs.subscribe((response)=> console.log(response))
+  ngOnInit() {
+    const obs = this.http.get(this.apiURL);
+    obs.subscribe((response) => console.log(response));
   }
 }
