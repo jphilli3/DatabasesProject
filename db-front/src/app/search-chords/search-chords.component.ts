@@ -9,38 +9,64 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./search-chords.component.css']
 })
 export class SearchChordsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  
-
+  constructor(private http: HttpClient) { }
+  ngOnInit() {}
 }
 @Component({
   selector: 'app-search-bar',
   styleUrls: ['./search-chords.component.css'],
   template: `
     <input class="search-bar" (keyup)="input($event)" type="text">
-    <app-chord-view [chords]="chords"></app-chord-view>
-    `
+    <div class="table-scroll">
+      <table class="chord-table">
+        <tr>
+          <app-chord-view [chords]="searchChords"></app-chord-view>
+        </tr>
+      </table>
+    </div>
+  `
 })
 
-export class SearchBarComponent {
-  apiURL = 'http://127.0.0.1:8000/chord/name/';
-  searchURL = '';
-  chords: any[] = [];
+export class SearchBarComponent implements OnInit {
+  apiURL = 'http://localhost:8000/chords/?skip=0&limit=100';
   constructor(private http: HttpClient) { }
-
-  input(event: any) {
-    console.log(this.apiURL + event.target.value);
-    const obs = this.http.get(this.apiURL + event.target.value);
+  chords: any = [];
+  searchChords: any[] = [];
+  search = '';
+  ngOnInit() {
+    const obs = this.http.get(this.apiURL);
     obs.subscribe((response) => {
-      this.chords.pop();
-      this.chords.push(response);
+      this.chords = response;
+      console.log(this.chords);
     });
   }
+  input(event) {
+    this.search = event.target.value;
+
+    if (this.search !== '' && event.keyCode !== 8) {
+      this.clearSearchChords();
+      this.chords.forEach(element => {
+        if (String(element.chord_name).includes(this.search)) {
+          this.searchChords.push(element);
+        }
+      });
+    }
+    if (this.search !== '' && event.keyCode === 13) {
+      this.clearSearchChords();
+      this.chords.forEach(element => {
+        if (String(element.chord_name) === this.search) {
+          this.searchChords.push(element);
+        }
+      });
+    }
+  }
+
+  clearSearchChords() {
+    while (this.searchChords.length > 0) {
+      this.searchChords.pop();
+    }
+  }
+
 }
 
 @Component({
@@ -114,7 +140,9 @@ export class SearchBarComponent {
 })
 
 export class ChordViewComponent {
-  @Input() chords: any[];
+
+  @Input() chords: any;
+
   // Checks to see if a string is open or closed and selects the correct styling class.
   getStringClass(string) {
     switch (string) {

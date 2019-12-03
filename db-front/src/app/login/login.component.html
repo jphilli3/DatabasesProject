@@ -1,17 +1,20 @@
-<form (submit)="loginUser($event)">
-   <p>Username: <input type="text" placeholder="username" id="username"></p>
-   <p>Password: <input type="text" placeholder="password" id ="password"></p>
-   <input type="submit" value="Login">
-</form>
-
-
-<form (submit)="createNewUser()">
-        <p>Username: <input type="text" placeholder="username"></p>
-        <p>Password: <input type="text" placeholder="password"></p>
-        <input type="submit" value="Register Account">
-</form>
-
-
-<button routerLink="../search-chords">Fake Login</button>
-
+<div class="root">
+        <div class="login-container">
+        <form (submit)="loginUser($event)">
+                <p><input class="login-user" type="text" placeholder="username" id="username"></p>
+                <p><input class="login-pass" type="password" placeholder="password" id ="password"></p>
+                <input class="button" type="submit" value="Login">
+        </form>
+        </div>
+        <div class="title-container">
+                <h1 class="title">Or</h1>
+        </div>
+        <div class="signup-container">
+        <form (submit)="createNewUser()">
+                <p><input class="signup-user" type="text" placeholder="username"></p>
+                <p><input class="signup-pass" type="password" placeholder="password"></p>
+                <input class="button" type="submit" value="Register Account">
+        </form>
+        </div>
+</div>
 
