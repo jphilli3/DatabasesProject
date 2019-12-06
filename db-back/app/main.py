@@ -15,7 +15,12 @@ app = FastAPI(title = "Guitar Hero",
 
 # add your front end server here:
 origins = [
-    "http://localhost:4200"
+    "http://localhost:4200",
+    "http://localhost:4200/login",
+    "http://localhost:4200/home",
+    "http://localhost:4200/search-chords",
+    "http://127.0.0.1:8000/users/",
+    "http://localhost:4200/signup"
 ]
 
 app.add_middleware(
@@ -47,7 +52,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.get("/users/", response_model=schemas.User)
+@app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, username=user.username)
     if db_user: 

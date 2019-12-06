@@ -33,12 +33,15 @@ export class SearchBarComponent implements OnInit {
   chords: any = [];
   searchChords: any[] = [];
   search = '';
-  ngOnInit() {
+  getChords() {
     const obs = this.http.get(this.apiURL);
     obs.subscribe((response) => {
       this.chords = response;
       console.log(this.chords);
     });
+  }
+  ngOnInit() {
+    this.getChords();
   }
   input(event) {
     this.search = event.target.value;

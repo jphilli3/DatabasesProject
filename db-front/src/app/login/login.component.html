@@ -1,4 +1,7 @@
 <div class="root">
+        <div class="title-container">
+                <h1 class="title">GuitarDB</h1>
+        </div>
         <div class="login-container">
         <form (submit)="loginUser($event)">
                 <p><input class="login-user" type="text" placeholder="username" id="username"></p>
@@ -6,15 +9,11 @@
                 <input class="button" type="submit" value="Login">
         </form>
         </div>
-        <div class="title-container">
-                <h1 class="title">Or</h1>
+        <div class="or-container">
+                <h1 class="or">Or</h1>
         </div>
         <div class="signup-container">
-        <form (submit)="createNewUser()">
-                <p><input class="signup-user" type="text" placeholder="username"></p>
-                <p><input class="signup-pass" type="password" placeholder="password"></p>
-                <input class="button" type="submit" value="Register Account">
-        </form>
+        <input class="button" type="submit" value="Sign Up" routerLink="../signup">
         </div>
 </div>
 
