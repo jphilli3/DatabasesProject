@@ -38,7 +38,7 @@ export class SignUpComponent implements OnInit {
           'password': password,
           'first_name': first_name,
           'last_name': last_name,
-          'level': 1
+          'player_level': 1
         }, httpOptions)
           .subscribe(data => {
             this.router.navigate(['/search-chords']);

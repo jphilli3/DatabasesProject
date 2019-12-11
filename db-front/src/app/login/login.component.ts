@@ -27,8 +27,9 @@ export class LoginComponent implements OnInit {
     const target = event.target;
     const username = target.querySelector('#username').value;
     const password = target.querySelector('#password').value;
-    const obs = this.http.get(this.svc.apiURL + 'getUserDetails/{user}?username=' + username);
+    const obs = this.http.get(this.svc.apiURL + 'users/' + username);
     obs.subscribe((response) => {
+      console.log(response);
       this.user = response;
       if (this.user.password === password) {
         this.router.navigate(['/home']);

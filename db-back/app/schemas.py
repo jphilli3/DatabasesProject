@@ -59,7 +59,7 @@ class UserBase(BaseModel):
     password: str
     first_name: str
     last_name: str
-    level: int
+    player_level: int
 
 class UserCreate(UserBase):
     pass

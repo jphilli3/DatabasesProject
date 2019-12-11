@@ -15,12 +15,8 @@ app = FastAPI(title = "Guitar Hero",
 
 # add your front end server here:
 origins = [
-    "http://localhost:4200",
-    "http://localhost:4200/login",
-    "http://localhost:4200/home",
-    "http://localhost:4200/search-chords",
-    "http://127.0.0.1:8000/users/",
-    "http://localhost:4200/signup"
+    "http://127.0.0.1:8000",
+    "http://localhost:4200"
 ]
 
 app.add_middleware(
@@ -44,7 +40,7 @@ def get_db():
 def healthCheck():
     return {"status":"up"}
 
-@app.get("/users/{id}/", response_model=schemas.User)
+@app.get("/users/{user_id}/", response_model=schemas.User)
 def read_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db=db, user_id=user_id)
     if db_user is None:
@@ -52,14 +48,14 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post("/users/create/", response_model=schemas.User)
+@app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_username(db, username=user.username)
+    db_user = crud.get_user_by_username(db=db, username=user.username)
     if db_user: 
         raise HTTPException(status_code=400, detail="User already registered")
     return crud.create_user(db=db, user=user)
 
-@app.get("/getUserDetails/{user}/", response_model=schemas.User)
+@app.get("/users/{username}", response_model=schemas.User)
 def getUserDetails(username: str,db:Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db=db,username=username)
     if db_user is None:
@@ -82,10 +78,10 @@ def read_chord_id(chord_id: int, db: Session = Depends(get_db)):
 
 @app.get("/chords/", response_model=List[schemas.Chord]) 
 def read_chords(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    db_chords = crud.get_chords(db,skip=skip,limit=limit)
+    db_chords = crud.get_chords(db=db,skip=skip,limit=limit)
     return db_chords
 
-@app.post("/chords/create/", response_model=schemas.Chord)
+@app.post("/chords/", response_model=schemas.Chord)
 def create_chord(chord: schemas.ChordCreate, db: Session = Depends(get_db)):
     db_chord = crud.get_chord(db=db,chord_id=chord.id)
     if db_chord:
@@ -99,7 +95,7 @@ def read_progression(progression_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Progression not found")
     return db_progression
 
-@app.post("/progressions/create/", response_model=schemas.Progression)
+@app.post("/progressions/", response_model=schemas.Progression)
 def create_progression(progression: schemas.ProgressionCreate, db: Session = Depends(get_db)):
     db_progression = crud.get_progression(db=db,progression_id=progression.id)
     if db_progression:
@@ -113,7 +109,7 @@ def read_song(song_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Song not found")
     return db_song
 
-@app.post("/songs/create/", response_model=schemas.Song)
+@app.post("/songs/", response_model=schemas.Song)
 def create_song(song: schemas.SongCreate, db: Session = Depends(get_db)):
     db_song= crud.get_song(db=db,song_id=song.id)
     if db_song:
