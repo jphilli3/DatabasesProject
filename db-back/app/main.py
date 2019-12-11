@@ -52,7 +52,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post("/users/", response_model=schemas.User)
+@app.post("/users/create/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, username=user.username)
     if db_user: 
@@ -85,7 +85,7 @@ def read_chords(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_chords = crud.get_chords(db,skip=skip,limit=limit)
     return db_chords
 
-@app.get("/chord/create/", response_model=schemas.Chord)
+@app.post("/chords/create/", response_model=schemas.Chord)
 def create_chord(chord: schemas.ChordCreate, db: Session = Depends(get_db)):
     db_chord = crud.get_chord(db=db,chord_id=chord.id)
     if db_chord:
@@ -99,7 +99,7 @@ def read_progression(progression_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Progression not found")
     return db_progression
 
-@app.get("/progressions/", response_model=schemas.Progression)
+@app.post("/progressions/create/", response_model=schemas.Progression)
 def create_progression(progression: schemas.ProgressionCreate, db: Session = Depends(get_db)):
     db_progression = crud.get_progression(db=db,progression_id=progression.id)
     if db_progression:
@@ -113,7 +113,7 @@ def read_song(song_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Song not found")
     return db_song
 
-@app.get("/songs/", response_model=schemas.Song)
+@app.post("/songs/create/", response_model=schemas.Song)
 def create_song(song: schemas.SongCreate, db: Session = Depends(get_db)):
     db_song= crud.get_song(db=db,song_id=song.id)
     if db_song:
