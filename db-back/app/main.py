@@ -62,6 +62,13 @@ def getUserDetails(username: str,db:Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail= "User not found")
     return db_user
 
+@app.get("/users/{id}/chords", response_model=List[schemas.Chord])
+def getUserChords(id: int,db:Session = Depends(get_db)):
+    db_chords = crud.get_chords_user_knows(db=db,user_id=id)
+    if db_chords is None:
+        raise HTTPException(status_code=404, detail= "User not found")
+    return db_chords
+
 @app.get("/chord/name/{chord_name}/", response_model=schemas.Chord)
 def read_chord(chord_name: str, db: Session = Depends(get_db)):
     db_chord = crud.get_chord_by_name(db=db, chord_name=chord_name)
@@ -102,12 +109,26 @@ def create_progression(progression: schemas.ProgressionCreate, db: Session = Dep
         raise HTTPException(status_code=400, detail="Progression already created")
     return crud.create_progression(db=db, progression=progression)
 
+@app.get("/progressions/{key}/chords", response_model=List[schemas.Chord])
+def getSongChords(key: str,db:Session = Depends(get_db)):
+    db_chords = crud.get_chords_in_progression(db=db,progression_key=key)
+    if db_chords is None:
+        raise HTTPException(status_code=404, detail= "Song not found")
+    return db_chords
+
 @app.get("/songs/{id}/", response_model=schemas.Song)
 def read_song(song_id: int, db: Session = Depends(get_db)):
     db_song = crud.get_song(db=db, song_id=song_id)
     if db_song is None:
         raise HTTPException(status_code=404, detail="Song not found")
     return db_song
+
+@app.get("/songs/{name}/chords", response_model=List[schemas.Chord])
+def getSongChords(name: str,db:Session = Depends(get_db)):
+    db_chords = crud.get_chords_in_song(db=db,song_title=name)
+    if db_chords is None:
+        raise HTTPException(status_code=404, detail= "Song not found")
+    return db_chords
 
 @app.post("/songs/", response_model=schemas.Song)
 def create_song(song: schemas.SongCreate, db: Session = Depends(get_db)):

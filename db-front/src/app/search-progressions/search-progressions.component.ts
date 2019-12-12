@@ -1,22 +1,64 @@
-import { OnInit, Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ApiService } from '../api.service';
+import { ApiService } from './../api.service';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { BrowserModule } from '@angular/platform-browser';
+import { Component, OnInit, NgModule, Injectable, Input } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-search-progressions',
+  templateUrl: './search-progressions.component.html',
+  styleUrls: ['./search-progressions.component.css']
 })
-export class HomeComponent {
+export class SearchProgressionsComponent implements OnInit {
+  constructor(private http: HttpClient, private svc: ApiService) { }
+  ngOnInit() {}
+}
+@Component({
+  selector: 'app-progressions-search-bar',
+  styleUrls: ['./search-progressions.component.css'],
+  template: `
+    <input class="search-bar" (keyup)="input($event)" type="text">
+    <div class="table-scroll">
+      <table class="chord-table">
+        <tr>
+          <app-progressions-chord-view [chords]="searchChords"></app-progressions-chord-view>
+        </tr>
+      </table>
+    </div>
+  `
+})
 
-  constructor() { }
+export class SearchProgressionBarComponent  {
+  apiURL = 'http://localhost:8000/progressions/';
+  constructor(private http: HttpClient, private svc: ApiService) { }
+  chords: any = [];
+  searchChords: any[] = [];
+  knownChords = this.svc.knownChords;
+  search = '';
+  getChords(name) {
+    const obs = this.http.get(this.apiURL + name + '/chords');
+    obs.subscribe((response) => {
+      this.chords = response;
+      this.searchChords = this.chords;
+      console.log(this.chords);
+    });
+  }
+  input(event) {
+    this.search = event.target.value;
+    this.getChords(this.search);
+  }
+
+  clearSearchChords() {
+    while (this.searchChords.length > 0) {
+      this.searchChords.pop();
+    }
+  }
 
 }
 
 @Component({
-  selector: 'app-known-chord-view',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-progressions-chord-view',
+  styleUrls: ['./search-progressions.component.css'],
   template: `
   <td *ngFor="let chord of chords" class="chord-view-cell">
   <svg class="chord-view">
@@ -84,23 +126,9 @@ export class HomeComponent {
     `
 })
 
-export class KnownChordComponent implements OnInit {
-
-  apiURL = 'http://localhost:8000/users/';
+export class ProgressionViewComponent {
   constructor(private http: HttpClient, private svc: ApiService) { }
-  chords: any = [];
-  getChords() {
-    const obs = this.http.get(this.apiURL + this.svc.user.id + '/chords');
-    obs.subscribe((response) => {
-      this.chords = response;
-      this.svc.knownChords = response;
-      console.log('CHORDS');
-      console.log(this.chords);
-    });
-  }
-  ngOnInit() {
-    this.getChords();
-  }
+  @Input() chords: any;
 
   // Checks to see if a string is open or closed and selects the correct styling class.
   getStringClass(string) {
@@ -202,24 +230,6 @@ export class KnownChordComponent implements OnInit {
     } else {
       return 'none';
     }
-  }
-
-}
-
-@Component({
-  selector: 'app-username',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  template: `
-    <label class="username">Current User: {{getUser()}}</label>
-  `
-})
-export class UsernameComponent {
-
-  constructor(private http: HttpClient, private svc: ApiService) { }
-
-  getUser() {
-    return this.svc.user.username;
   }
 
 }

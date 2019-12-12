@@ -1,3 +1,5 @@
+import { SearchProgressionsComponent, SearchProgressionBarComponent, ProgressionViewComponent } from './search-progressions/search-progressions.component';
+import { SearchSongsComponent, SearchSongBarComponent, SongViewComponent } from './search-songs/search-songs.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -9,7 +11,8 @@ import { AppComponent } from './app.component';
 import { SearchBarComponent, ChordViewComponent, SearchChordsComponent } from './search-chords/search-chords.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, UsernameComponent } from './home/home.component';
+import { KnownChordComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SignUpComponent } from './signup/signup.component';
 
@@ -22,7 +25,15 @@ import { SignUpComponent } from './signup/signup.component';
     HomeComponent,
     SearchChordsComponent,
     PageNotFoundComponent,
-    SignUpComponent
+    SignUpComponent,
+    KnownChordComponent,
+    UsernameComponent,
+    SearchSongsComponent,
+    SearchSongBarComponent,
+    SongViewComponent,
+    SearchProgressionsComponent,
+    SearchProgressionBarComponent,
+    ProgressionViewComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 #Users
+#WORKS
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
@@ -14,9 +15,9 @@ def get_users_by_first_name(db: Session, first_name: str):
 
 def get_users_by_last_name(db: Session, last_name: str):
     return db.query(models.User).filter(models.User.last_name == last_name).all()
-
+#WORKS
 def get_chords_user_knows(db: Session, user_id: int):
-    return db.query(models.user_chord_assocociation).filter(models.user_chord_assocociation.UserID == user_id).all()
+    return db.query(models.Chord).filter(models.User.id == user_id).filter(models.User.knows_chords).all()
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
@@ -32,10 +33,10 @@ def create_user(db: Session, user: schemas.UserCreate):
 #Chords
 def get_chord(db: Session, chord_id: int):
     return db.query(models.Chord).filter(models.Chord.id == chord_id).first()
-
+#WORKS
 def get_chord_by_name(db: Session, chord_name: str):
     return db.query(models.Chord).filter(models.Chord.chord_name == chord_name).first()
-
+#WORKS
 def get_chords(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Chord).offset(skip).limit(limit).all()
 
@@ -68,8 +69,8 @@ def get_progressions(db: Session, skip: int = 0, limit: int = 100):
 def get_songs_with_progression(db: Session, progression_id: int):
     return db.query(models.song_progression_association).filter(models.song_progression_association.ProgressionID == progression_id).all()
 
-def get_chords_in_progression(db: Session, progression_id: int):
-    return db.query(models.progression_chord_association).filter(models.progression_chord_association.ProgressionID == progression_id).all()
+def get_chords_in_progression(db: Session, progression_key: str):
+   return db.query(models.Chord).filter(models.Chord_Progression.key_name == progression_key).filter(models.Chord_Progression.chords_in_progression).all()
 
 def create_progression(db: Session, progression: schemas.ProgressionCreate):
     db_progression = models.Chord_Progression(key_name=progression.key_name)
@@ -91,8 +92,9 @@ def get_songs_by_artist(db: Session, artist: str):
 def get_songs(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Songs).offset(skip).limit(limit).all()
 
-def get_chords_in_song(db: Session, song_id: int):
-    return db.query(models.song_chord_association).filter(models.song_chord_association.SongID == song_id).all()
+#WORKS
+def get_chords_in_song(db: Session, song_title: str):
+    return db.query(models.Chord).filter(models.Songs.title == song_title).filter(models.Songs.chords_in).all()
 
 def get_progressions_in_song(db: Session, song_id: int):
     return db.query(models.song_progression_association).filter(models.song_progression_association.SongID == song_id).all()

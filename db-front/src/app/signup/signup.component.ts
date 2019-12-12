@@ -41,6 +41,7 @@ export class SignUpComponent implements OnInit {
           'player_level': 1
         }, httpOptions)
           .subscribe(data => {
+            this.svc.user = data;
             this.router.navigate(['/search-chords']);
            }, error => {
             console.log(error);

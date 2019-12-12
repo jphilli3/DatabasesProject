@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
     const obs = this.http.get(this.svc.apiURL + 'users/' + username);
     obs.subscribe((response) => {
       console.log(response);
-      this.user = response;
-      if (this.user.password === password) {
+      this.svc.user = response;
+      if (this.svc.user.password === password) {
         this.router.navigate(['/home']);
       }
     });

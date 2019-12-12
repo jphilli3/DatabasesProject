@@ -15,14 +15,207 @@
 /*
 ==== Title ====
 */
+
+
 .title-container {
 
     text-align: center;
-
 }
 
 .title {
     font-family: sans-serif;
+    font-size: 50pt;
+    font-weight: 80;
+    text-align: center
+}
+
+.chord-title {
+    font-family: sans-serif;
     font-size: 35pt;
     font-weight: 80;
+    text-align: center
+}
+
+.table-scroll {
+    overflow: auto;
+    width: 100%;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+}
+
+.table-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.chord-table {
+    width: 100%;
+    height: 100%;
+    display: table;
+    position: relative;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.chord-view-cell {
+    width: 250px;
+    height: 400px;
+    padding-left: 8%;
+    padding-right: 8%
+}
+
+.chord-view {
+    box-shadow: 1px 1px 1px 1px rgb(0.0, 0.0, 0.0, 0.5);
+    border-width: 0px;
+    border-radius: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color:#455054;
+    bottom: 0;
+    display: table-column;
+    width: 100%;
+    height: 70%;
+}
+.header {
+    fill: #D4CFC9;
+    width: 100%;
+    height: 4%;
+}
+
+.fret {
+    fill: rgb(15, 207, 255);
+    width: 100%;
+    height: 2%;
+}
+.fret-shadow {
+    width: 100%;
+    height: 2.2%;
+    filter: drop-shadow( 2px 2px 2px 2px rgb(0.0, 0.0, 0.0, 0.5));
+    -webkit-filter: drop-shadow( 2px 2px 2px 2px rgb(0.0, 0.0, 0.0, 0.5));
+}
+
+.open-string {
+    fill: #308695;
+    width: 4%;
+    height: 100%;
+}
+.muted-string {
+    fill: #455054;
+    width: 4%;
+    height: 100%;
+}
+
+.string-shadow {
+    width: 4.2%;
+    height: 100%;
+    filter: drop-shadow( 2px 2px 2px 2px rgb(0.0, 0.0, 0.0, 0.5));
+    -webkit-filter: drop-shadow( 2px 2px 2px 2px rgb(0.0, 0.0, 0.0, 0.5));
+}
+
+.position {
+
+    fill: #E69D45;
+
+}
+
+.chord-name {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 40pt;
+    font-weight: 80;
+    width: 100%;
+    padding-top: 2%;
+    padding-left: 10%;
+    display: inline-block;
+}
+
+.search-chords-button {
+
+    width: 50%;
+    height: 70px;
+    margin-top: 1%;
+    margin-left: 25%;
+    align-content: center;
+    text-align: center;
+    border-width: 0px;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: 35pt;
+    font-weight: 80;
+    outline: none;
+    background-color: #308695;
+    color: #ffffff;
+    box-shadow: 1px 1px 1px 1px rgb(0.0, 0.0, 0.0, 0.5);
+
+
+}
+
+.search-songs-button {
+
+    width: 50%;
+    height: 70px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: 25%;
+    align-content: center;
+    text-align: center;
+    border-width: 0px;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: 35pt;
+    font-weight: 80;
+    outline: none;
+    background-color: #308695;
+    color: #ffffff;
+    box-shadow: 1px 1px 1px 1px rgb(0.0, 0.0, 0.0, 0.5);
+
+
+}
+
+.search-progressions-button {
+
+    width: 50%;
+    height: 70px;
+    margin-top: 0%;
+    margin-bottom: 5%;
+    margin-left: 25%;
+    align-content: center;
+    text-align: center;
+    border-width: 0px;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: 35pt;
+    font-weight: 80;
+    outline: none;
+    background-color: #308695;
+    color: #ffffff;
+    box-shadow: 1px 1px 1px 1px rgb(0.0, 0.0, 0.0, 0.5);
+
+
+}
+
+.home-button {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14pt;
+    font-weight: 80;
+    width: 8%;
+    height: 5%;
+    display: inline-block;
+    border-width: 0px;
+    border-radius: 10px;
+    margin-top: 2%;
+    margin-left: 5%;
+    outline: none;
+    background-color: #308695;
+    color: #ffffff;
+    box-shadow: 1px 1px 1px 1px rgb(0.0, 0.0, 0.0, 0.5);
+}
+
+.username {
+
+    font-family: sans-serif;
+    font-size: 15pt;
+    font-weight: 80;
+    text-align: center;
+    padding-left: 2%;
 }

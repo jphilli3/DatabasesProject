@@ -33,7 +33,7 @@ class User(Base):
     player_level = Column(Integer, nullable=False)
     password = Column(String(55), nullable=False)
 
-    user_chords = relationship("Chord", secondary=user_chord_assocociation, back_populates="known_chords")
+    knows_chords = relationship("Chord", secondary=user_chord_assocociation, back_populates="known_chords")
 
 
 
@@ -63,7 +63,7 @@ class Chord(Base):
     string1 = Column(TINYINT(1), nullable = True)
     max_fret = Column(TINYINT(1), nullable = True)
 
-    known_chords = relationship("User", secondary=user_chord_assocociation,back_populates="user_chords")
+    known_chords = relationship("User", secondary=user_chord_assocociation,back_populates="knows_chords")
     in_songs = relationship("Songs",secondary=song_chord_association,back_populates="chords_in")
     progressions_with_chords= relationship("Chord_Progression",secondary=progression_chord_association,back_populates="chords_in_progression")
 

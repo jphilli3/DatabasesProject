@@ -1,6 +1,18 @@
 <div class="root">
+  <button class="home-button" routerLink="../login">Logout</button>
+  <app-username></app-username>
+  <h1 class="title">GuitarDB</h1>
     <div class="title-container">
-        <h1>Home Page</h1>
+        <h1 class="chord-title">Chords You Know</h1>
+        <div class="table-scroll">
+            <table class="chord-table">
+              <tr>
+                <app-known-chord-view></app-known-chord-view>
+              </tr>
+            </table>
+          </div>
     </div>
     <input class="search-chords-button" type="submit" value="Search Chords" routerLink="../search-chords">
+    <input class="search-songs-button" type="submit" value="Search Songs" routerLink="../search-songs">
+    <input class="search-progressions-button" type="submit" value="Search Progressions" routerLink="../search-progressions">
 </div>

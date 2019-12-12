@@ -1,7 +1,8 @@
+import { ApiService } from './../api.service';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
 import { Component, OnInit, NgModule, Injectable, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-search-chords',
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./search-chords.component.css']
 })
 export class SearchChordsComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private svc: ApiService) { }
   ngOnInit() {}
 }
 @Component({
@@ -29,9 +30,10 @@ export class SearchChordsComponent implements OnInit {
 
 export class SearchBarComponent implements OnInit {
   apiURL = 'http://localhost:8000/chords/?skip=0&limit=100';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private svc: ApiService) { }
   chords: any = [];
   searchChords: any[] = [];
+  knownChords = this.svc.knownChords;
   search = '';
   getChords() {
     const obs = this.http.get(this.apiURL);
@@ -138,13 +140,21 @@ export class SearchBarComponent implements OnInit {
     </g>
     </svg>
     <label class="chord-name" for="chord-view-cell"> {{chord.chord_name}} </label>
+    <button class="chord-select" (click)="addChord(chord)"> Add To Known Chords </button>
     </td>
     `
 })
 
 export class ChordViewComponent {
-
+  constructor(private http: HttpClient, private svc: ApiService) { }
   @Input() chords: any;
+  user = this.svc.user;
+  knownChords = this.svc.knownChords;
+  addChord(chord) {
+
+    this.knownChords += chord;
+
+  }
 
   // Checks to see if a string is open or closed and selects the correct styling class.
   getStringClass(string) {
@@ -160,6 +170,13 @@ export class ChordViewComponent {
   getFingerPosition(fret, position, max) {
     if (position <= 0) {
       return 'none';
+    }
+    if (max - 1 === 0) {
+      if (fret === position) {
+        return 'block';
+      } else {
+        return 'none';
+      }
     }
     if (max - 2 === 0) {
       if (fret === position) {
@@ -184,7 +201,19 @@ export class ChordViewComponent {
 
   // Gets the fret number.
   getFretNumber(max, index) {
-    if (max - 2 === 0) {
+    if (max - 1 === 0) {
+      switch (index) {
+        case 1:
+          return 0;
+        case 2:
+          return 1;
+        case 3:
+          return 2;
+        case 4:
+          return 3;
+      }
+    }
+    else if (max - 2 === 0) {
       switch (index) {
         case 1:
           return 1;
